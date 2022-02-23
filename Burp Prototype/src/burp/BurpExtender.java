@@ -2,11 +2,10 @@ package burp;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Collections;
 
-public class BurpExtender implements IBurpExtender, IHttpListener {//, IProxyListener {
+public class BurpExtender implements IBurpExtender, IHttpListener {
 
     private IBurpExtenderCallbacks callbacks;
     private IExtensionHelpers helpers;
@@ -19,7 +18,6 @@ public class BurpExtender implements IBurpExtender, IHttpListener {//, IProxyLis
         this.helpers = callbacks.getHelpers();
         this.callbacks.setExtensionName("Lucas's Burp Extension");
         this.callbacks.registerHttpListener(this); // This waits for a packet to be received and forwards it to the code
-        //this.callbacks.registerProxyListener(this); // if we want to use a proxy instead, which may be required to intercept and drop packets
         this.cookieCounter = 0;
 
         this.debug = new PrintWriter(callbacks.getStdout(), true); // lets us print either to the Burp app, a file, or the terminal
@@ -27,21 +25,19 @@ public class BurpExtender implements IBurpExtender, IHttpListener {//, IProxyLis
 
     /*
     Goals for the future and suggestions for what to work on:
-    1. Successfully transplant a reassembled cookie onto a header and send it out
+    1. [DONE] Successfully transplant a reassembled cookie onto a header and send it out
     2. Rather than searching for cookies, simply apply logic to any key=value detected in the packet
+        * This would require some serious checking to avoid breaking websites! Ex. in-packet HTML code or lang=en_us
     3. Modify logic to be more rigorous, ex. for GPS=1, scrambing '1' would do nothing
     4. See if it's possible to keep cookie values 'usable' so that the server doesn't just chuck them
     5. Figure out what else we can do when it comes to stateful tracking
     */
 
     @Override
-    public void processHttpMessage(int toolFlag, boolean messageIsRequest, IHttpRequestResponse messageInfo) {
-    //public void processProxyMessage(boolean messageIsRequest, IInterceptedProxyMessage messageInfo) {
+    public void processHttpMessage(int toolFlag, boolean messageIsRequest, IHttpRequestResponse message) {
         if (messageIsRequest) { // Is the packet a HTTP request coming from the client?
-            IRequestInfo request = this.helpers.analyzeRequest(messageInfo.getHttpService(), messageInfo.getRequest());
-            //IRequestInfo request = this.helpers.analyzeRequest(messageInfo.getMessageInfo()); // if using the proxy
+            IRequestInfo request = this.helpers.analyzeRequest(message);
             List<String> request_headers = request.getHeaders();
-            List<String> modified_headers = new ArrayList(request_headers.size());
             Boolean packet_was_modified = false;
 
 
@@ -50,7 +46,6 @@ public class BurpExtender implements IBurpExtender, IHttpListener {//, IProxyLis
                 String header_name = header.split(":")[0]; // The first word before the semicolon will be the header's name
 
                 if (header_name.equals("Cookie")) { // For now, we only look at ones specifically referred to as a cookie
-                    packet_was_modified = true;
                     this.cookieCounter++;
                     String[] cookie_contents = header.split(" "); // get a list of each space-separated word in the cookie header
 
@@ -99,20 +94,24 @@ public class BurpExtender implements IBurpExtender, IHttpListener {//, IProxyLis
                     }
 
                     reassembled_cookie = reassembled_cookie.substring(0, reassembled_cookie.length()-1); // remove extra space at end
-                    modified_headers = request_headers; // copy the request body and replace its cookie header with ours
-                    modified_headers.set(h, reassembled_cookie);
+
+                    if (!packet_was_modified) {
+                        packet_was_modified = true;
+                    }
+
+                    request_headers.set(h, reassembled_cookie); // replace the current header with the one we've edited
                 }
             }
 
-            if (packet_was_modified) { // Once we've changed a request packet, we can create a new one in its place
+            if (packet_was_modified) { // Once we've changed a request packet, we can create a new one in its place                
                 int bodyOffset = request.getBodyOffset();
-                String body = new String(messageInfo.getRequest()).substring(bodyOffset);
-                byte[] modified_request_bytes = this.helpers.buildHttpMessage(modified_headers, body.getBytes());
-                messageInfo.setRequest(modified_request_bytes);
-                IRequestInfo modified_request = this.helpers.analyzeRequest(messageInfo.getHttpService(), messageInfo.getRequest()); // testing
+                String body = new String(message.getRequest()).substring(bodyOffset);
 
-                //callbacks.makeHttpRequest(messageInfo.getHttpService(), modified_request_bytes); // sends packet, I think
-
+                byte[] modified_request_bytes = this.helpers.buildHttpMessage(request_headers, body.getBytes());
+                message.setRequest(modified_request_bytes); // required if using http listener
+                IRequestInfo modified_request = this.helpers.analyzeRequest(message);
+                
+                // debug printout to make sure things are working
                 debug.println("STARTING PACKET ANALYSIS");
                 debug.println("\tORIGINAL PACKET:");
                 for (String s : request.getHeaders()) {
@@ -125,11 +124,10 @@ public class BurpExtender implements IBurpExtender, IHttpListener {//, IProxyLis
                 }
                 debug.println("END OF PACKET ANALYSIS\n");
             }
-
-           //debug.println(request.getHeaders().toString());
-
-        } else { // allows us to access HTTP responses sent by the website/server and received by our computer
-            IResponseInfo response = this.helpers.analyzeResponse(messageInfo.getResponse());
+        } 
+        /*
+        else { // allows us to access HTTP responses sent by the website/server and received by our computer
+            IResponseInfo response = this.helpers.analyzeResponse(message.getResponse());
             for (String sr : response.getHeaders()) {
                 String field = sr.split(":")[0];
                 if (field.equals("Set-Cookie")) { // HTTP responses are what create cookies in the first place. 
@@ -138,11 +136,10 @@ public class BurpExtender implements IBurpExtender, IHttpListener {//, IProxyLis
                 }
             }
             // Get all cookies as an object if we want to
-            /*
             for (ICookie c : response.getCookies()) {
                 debug.println(c.getValue());
             }
-            */
         }
+        */
     }
 }
