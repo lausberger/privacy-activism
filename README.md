@@ -11,17 +11,22 @@
 * Another way of intercepting a packet (check bottom of page): https://github.com/bit4woo/burp-api-drops/blob/master/src/burp/Lession6.java
 
 ## TO DO:
-* Figure out how to prevent a packet from being sent while code logic executes
-* Successfully transplant manipulated cookie values onto packet, then release
-* Run experiments to gauge impact of different ways of manipulating cookie values on user experience
-* Take on stateless tracking! Chromium source code can be forked, allowing access to browser location/canvas/battery/etc APIs. This could be used to directly alter the data given to tracking scripts!
-* Run experiments using a custom Chromium-based browser
+* ~~Figure out how to prevent a packet from being sent while code logic executes~~
+* ~~Successfully transplant manipulated cookie values onto packet, then release~~
+* Find a way to manipulate cookies while breaking sites as little as possible
+* Run experiments to gauge impact of different ways of manipulating packet values on user experience
+* Make a fork of Chromium or Brave browser
+* Do a stack trace w/ a custom HTML page that calls location function to find where Location API values are being returned from
+* Successfully spoof location API return value
+* Add functionality to draw randomly from list for location value
+* Fine-tune location API implementation
+* Begin to look at other APIs
 
 ## Methodology:
 
 #### Effectiveness of Implementation
 * Two components: Stateful (cookie/packet header based) and Stateless (Hook into Browser APIs)
-* Allows testing with one (10), the other (01), both (11), or neither (00)
+* Allows testing with one (10), the other (01), or neither (00)
 * Compare the deltas (differences) between different combinations and the "00" control
 
 #### Building Profiles
