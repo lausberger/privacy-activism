@@ -11,7 +11,7 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
     private IExtensionHelpers helpers;
     private PrintWriter debug;
     private int cookieCounter;
-
+//Test comment
     @Override
     public void registerExtenderCallbacks(IBurpExtenderCallbacks callbacks) { // This is what allows the code to interface with BurpSuite
         this.callbacks = callbacks;
