@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Location Spoofer",
+  "version": "0.1",
+
+  "description": "Spoofs the user's location, hopefully",
+
+  "author": "Lucas Ausberger",
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": ["<all_urls>"],
+      "js": ["geoSpoofer.js"],
+      "all_frames": true
+    }
+  ],
+  "permissions": [
+    "geolocation"
+  ]
+}
+
