@@ -10,6 +10,8 @@
 * Basically an abridged version of what we're doing: https://stackoverflow.com/questions/48523890/burp-extension-how-to-intercept-all-traffic
 * Another way of intercepting a packet (check bottom of page): https://github.com/bit4woo/burp-api-drops/blob/master/src/burp/Lession6.java
 * Someone made an extension that does exactly what we're trying to do with geolocation API: https://github.com/chatziko/location-guard
+* A good introduction to API hooking: https://www.youtube.com/watch?v=tmCYSuEbQ6M&t=571s
+* A really simple geolocation hook implementation I stole: https://stackoverflow.com/questions/57886012/how-to-fake-html5-geolocation-api-with-javascript
 
 ## TO DO:
 * ~~Figure out how to prevent a packet from being sent while code logic executes~~
@@ -42,3 +44,23 @@
 * An easy way to do this would be to randomly pick from a set of possible values for each fingerprint (location, hardware, battery status, etc)
 * Build a bank of possible values using each of our fingerprint data, plus whatever we can add to it
 * Theoretically would allow user to seem like a different person every time, preventing cross-site tracking and consumer profile building
+
+
+## Credit Roll:
+
+#### Lucas
+* Conducted preliminary research on Burp Suite as a Man-in-the-Middle proxy application
+* Conducted preliminary research on using Burp extensions to automate proxy functionality
+* Created repository
+* Compiled resoures for coding a Burp extension, added to README
+* Added project roadmap section to README
+* Added methodology section to README
+* Wrote initial implementation of BurpExtender, which intercepts request cookie field=value pairs and scrambles the values before sending
+* Created the guiding research questions
+* Wrote experimental design
+* Compiled useful resources for experiment
+* Researched browser API hooking and added pertinent resources to README
+* Wrote basic browser extension to later be used for API-hooking
+
+#### Elias
+* Compiled initial list of websites for experiment
