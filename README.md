@@ -9,6 +9,7 @@
 * burp package documentation: https://portswigger.net/burp/extender/api/index.html
 * Basically an abridged version of what we're doing: https://stackoverflow.com/questions/48523890/burp-extension-how-to-intercept-all-traffic
 * Another way of intercepting a packet (check bottom of page): https://github.com/bit4woo/burp-api-drops/blob/master/src/burp/Lession6.java
+* Someone made an extension that does exactly what we're trying to do with geolocation API: https://github.com/chatziko/location-guard
 
 ## TO DO:
 * ~~Figure out how to prevent a packet from being sent while code logic executes~~
