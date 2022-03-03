@@ -8,10 +8,9 @@
   "author": "Lucas Ausberger",
   "content_scripts": [
     {
-      "run_at": "document_end",
+      "run_at": "document_start",
       "matches": ["<all_urls>"],
-      "js": ["geoSpoofer.js"],
-      "all_frames": true
+      "js": ["geoSpoofer.js"]
     }
   ],
   "permissions": [

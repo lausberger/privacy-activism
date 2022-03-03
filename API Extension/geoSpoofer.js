@@ -1,6 +1,24 @@
-// some code I stoll from Stack
-console.log("Extension script has been executed.");
+console.log("Extension script executed successfully.");
 
+function componentDidMount() {
+    if (!"geolocation" in navigator) {
+        console.error("Geolocation access is unavailable");
+    }
+}
+
+componentDidMount();
+
+// Ignore me
+function testThing() {
+    navigator.geolocation.getCurrentPosition( function(position) {
+        console.log("Latitude: ", position.coords.latitude);
+        console.log("Longitude: ", position.coords.longitude);
+        console.log(position);
+    });
+}
+
+// Code I stole from stack
+/*
 // Success callback
 function success(position) {
     console.log('Success');
@@ -12,7 +30,6 @@ function error(position) {
     console.log('Could not find you!');
 }
 
-/*
 navigator.geolocation.getCurrentPosition = function(success, error){
     console.log("GEOLOCATION GETCURRENTPOSITION CALLED");
     var customPosition = {};
@@ -24,8 +41,9 @@ navigator.geolocation.getCurrentPosition = function(success, error){
 */
 
 // I wrote my own 
+/*
 navigator.geolocation.getCurrentPosition = function(success, error, options) {
-    console.log("GETCURRENTPOSITION HOOK SUCCESSFUL");
+    console.log("CALL TO HOOKED GEOLOCATION");
 
     success({ 
         coords: { // Brazil
@@ -34,7 +52,12 @@ navigator.geolocation.getCurrentPosition = function(success, error, options) {
         }
     });
 }
+*/
 
+testThing();
+
+/* Leave this alone for now, until getCurrentPosition works
 navigator.geolocation.watchPosition = function(watchSuccess, watchError) {
     console.log("WATCH LOCATION BEING CALLED");
 }
+*/
