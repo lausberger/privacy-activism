@@ -12,6 +12,8 @@
 * Someone made an extension that does exactly what we're trying to do with geolocation API: https://github.com/chatziko/location-guard
 * A good introduction to API hooking: https://www.youtube.com/watch?v=tmCYSuEbQ6M&t=571s
 * A really simple geolocation hook implementation I stole: https://stackoverflow.com/questions/57886012/how-to-fake-html5-geolocation-api-with-javascript
+* Code for a published paper that did almost exactly what we're doing (window_rewriting/inline.js): https://github.com/ravinet/dependency_caching/tree/master/window_rewriting
+* Ravi's paper: https://www.usenix.org/conference/nsdi16/technical-sessions/presentation/netravali
 
 ## TO DO:
 * ~~Figure out how to prevent a packet from being sent while code logic executes~~
