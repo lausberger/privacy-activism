@@ -10,11 +10,16 @@
     {
       "run_at": "document_start",
       "matches": ["<all_urls>"],
-      "js": ["geoSpoofer.js"]
+      "js": ["script.js"]
     }
   ],
+  "web_accessible_resources": [{
+    "resources": ["geoSpoofer.js"],
+    "matches": ["<all_urls>"]
+  }],
   "permissions": [
-    "geolocation"
+    "geolocation",
+    "scripting"
   ]
 }
 

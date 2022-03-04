@@ -1,14 +1,38 @@
+var s = document.createElement('script');
+s.src = chrome.runtime.getURL('geoSpoofer.js');
+/*
+s.onload = function() {
+    this.remove();
+};
+*/
+(document.head || document.documentElement).appendChild(s);
+
 console.log("Extension script executed successfully.");
 
-function componentDidMount() {
-    if (!"geolocation" in navigator) {
-        console.error("Geolocation access is unavailable");
-    }
+var x = 100;
+
+var testGeoOverride = navigator.geolocation.getCurrentPosition;
+
+navigator.geolocation.getCurrentPosition = function(success, error, options) {
+    console.log("CALL TO HOOKED GEOLOCATION");
+
+    success({ 
+        coords: { // Brazil
+            latitude: 14.2350,
+            longitude: 51.9253
+        }
+    });
+
+    testGeoOverride(success);
 }
 
-componentDidMount();
+/* Leave this alone for now, until getCurrentPosition works
+navigator.geolocation.watchPosition = function(watchSuccess, watchError) {
+    console.log("WATCH LOCATION BEING CALLED");
+}
+*/
 
-// Ignore me
+// For debugging getCurrentPosition
 function testThing() {
     navigator.geolocation.getCurrentPosition( function(position) {
         console.log("Latitude: ", position.coords.latitude);
@@ -16,6 +40,8 @@ function testThing() {
         console.log(position);
     });
 }
+
+//testThing();
 
 // Code I stole from stack
 /*
@@ -40,24 +66,10 @@ navigator.geolocation.getCurrentPosition = function(success, error){
 }
 */
 
-// I wrote my own 
-/*
-navigator.geolocation.getCurrentPosition = function(success, error, options) {
-    console.log("CALL TO HOOKED GEOLOCATION");
+//var _geolocation = navigator.geolocation.getCurrentPosition;
 
-    success({ 
-        coords: { // Brazil
-            latitude: 14.2350,
-            longitude: 51.9253
-        }
-    });
+navigator.geolocation.getCurrentPosition = function(success) {
+    console.log("API HOOKED WORKED");
+    console.trace();
 }
-*/
 
-testThing();
-
-/* Leave this alone for now, until getCurrentPosition works
-navigator.geolocation.watchPosition = function(watchSuccess, watchError) {
-    console.log("WATCH LOCATION BEING CALLED");
-}
-*/
