@@ -2,8 +2,12 @@ package burp;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 
 public class BurpExtender implements IBurpExtender, IHttpListener {
 
@@ -39,24 +43,73 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
             IRequestInfo request = this.helpers.analyzeRequest(message);
             List<String> request_headers = request.getHeaders();
             Boolean packet_was_modified = false;
-
-
-            for (int h=0; h<request_headers.size(); h++) { // Each "header" is a section of the packet, ex. 'User-Agent: ...'
+            
+            for (int h=1; h<request_headers.size(); h++) { // Each "header" is a section of the packet, ex. 'User-Agent: ...'
                 String header = request_headers.get(h); 
-                String header_name = header.split(":")[0]; // The first word before the semicolon will be the header's name
+                String[] header_components = header.split(":");
+                String header_name = header_components[0]; // The first word before the semicolon will be the header's name
+                String header_body = header_components[1]; // The body follows the colon
 
+                if (header_name.equals("User-Agent")) {
+                    // <product> / <product-version>: [A-Za-z]*\/[\d+\.\d+]*
+                    // <comment>: \(([^(]*)\) OR \(([A-Za-z ,\/\d.]*(; )?)*\)
+
+                    List<String> product_matches = new ArrayList<String>();
+                    List<String> comment_matches = new ArrayList<String>();
+
+                    Matcher product_matcher = Pattern.compile("[A-Za-z]*\\/[\\d+.\\d+]*").matcher(header_body);
+                    Matcher comment_matcher = Pattern.compile("\\(([^(]*)\\)").matcher(header_body);
+
+                    while (product_matcher.find()) {
+                        product_matches.add(product_matcher.group());
+                    }
+
+                    while (comment_matcher.find()) {
+                        comment_matches.add(comment_matcher.group());
+                    }
+
+                    String teststring = "test string";
+                    for (int i=0; i<comment_matches.size(); i++) {
+                        String no_parenthesis = comment_matches.get(i).substring(1, comment_matches.get(i).length()-1);
+                        String[] comment = no_parenthesis.split("; ");
+                        String new_comment = "";
+                        boolean multiple = false;
+                        boolean last = false;
+
+                        for (int j=0; j<comment.length; j++) {
+                            if (j > 0) {
+                                multiple = true;
+                            }
+                            if (j == comment.length-1) {
+                                last = true;
+                            }
+                            if (multiple && !last) {
+                                new_comment = new_comment + teststring + "; ";
+                            } else if (last) {
+                                new_comment = new_comment + teststring;
+                            }
+                        }
+                        
+                        new_comment = "(" + new_comment + ")";
+                        System.out.println(new_comment);
+                        System.out.println(Arrays.toString(comment));
+                        System.out.println();
+                        comment_matches.set(i, new_comment);
+                    }
+                }
+
+            /*
                 if (header_name.equals("Cookie")) { // For now, we only look at ones specifically referred to as a cookie
                     this.cookieCounter++;
                     String[] cookie_contents = header.split(" "); // get a list of each space-separated word in the cookie header
 
                     for (int i=1; i<cookie_contents.length; i++) { // iterate through these words, skipping the first entry, "Cookie:"
                         
-                        /*
-                        Would be nice to have a Regex that can tolerate fields such as:
-                            "Trk0=Value=1483300&Creation=13%2f02%2f2022+02%3a55%3a06"
-                        Ideally, only the value after the last "=" would be grabbed.
-                        Then, we can skip checking for the word "Cookie" and instead focus on wherever a key=value pair is assigned
-                        */
+                        
+                        //Would be nice to have a Regex that can tolerate fields such as:
+                        //    "Trk0=Value=1483300&Creation=13%2f02%2f2022+02%3a55%3a06"
+                        //Ideally, only the value after the last "=" would be grabbed.
+                        //Then, we can skip checking for the word "Cookie" and instead focus on wherever a key=value pair is assigned
 
                         String cookie_entry = cookie_contents[i];
                         String[] keyValueSet = cookie_entry.split("="); // Get a list of the key(s) and value within the cookie entry
@@ -101,7 +154,9 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
 
                     request_headers.set(h, reassembled_cookie); // replace the current header with the one we've edited
                 }
+                */
             }
+            
 
             if (packet_was_modified) { // Once we've changed a request packet, we can create a new one in its place                
                 int bodyOffset = request.getBodyOffset();
