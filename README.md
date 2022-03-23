@@ -62,7 +62,7 @@
 * Wrote experimental design
 * Compiled useful resources for experiment
 * Researched browser API hooking and added pertinent resources to README
-* Wrote basic browser extension to later be used for API-hooking
 
 #### Elias
 * Compiled initial list of websites for experiment
+* Worked on User-Agent part of BurpExtender 
