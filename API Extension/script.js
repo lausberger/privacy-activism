@@ -1,10 +1,10 @@
 var test = "success!";
-var myCode = 'var inject = ${ 4 };';
-var script = document.createElement('script');
+var myCode = 'var inject = 4;';
+//var script = document.createElement('script');
 
-script.textContent = myCode;
-(document.head||document.documentElement).appendChild(script);
-script.remove();
+//script.textContent = myCode;
+//(document.head||document.documentElement).appendChild(script);
+//script.remove();
 
 function insertScript(inline, data) {
 	var script = document.createElement('script');
@@ -24,3 +24,4 @@ function insertScript(inline, data) {
 }
 
 insertScript(true, myCode);
+insertScript(false, myCode);

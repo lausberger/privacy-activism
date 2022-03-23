@@ -14,7 +14,7 @@
     }
   ],
   "web_accessible_resources": [{
-    "resources": ["geoSpoofer.js"],
+    "resources": ["script.js", "geoSpoofer.js"],
     "matches": ["<all_urls>"]
   }],
   "permissions": [
