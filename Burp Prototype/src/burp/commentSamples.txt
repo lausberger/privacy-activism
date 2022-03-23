@@ -1,0 +1,25 @@
+Android 6.0.1
+Linux
+SM-G960F Build/R16NW
+KHTML, like Gecko
+Android 7.0
+x64
+iPhone
+CPU iPhone OS 12_0 like Mac OS X
+iPhone9,3
+iPhone9,4
+U
+CPU iPhone OS 10_0_1 like Mac OS X
+Apple-iPhone7C2/1202.466
+en
+Win64
+Windows NT 10.0
+X11
+CrOS x86_64 8172.45.0
+Macintosh
+Intel Mac OS X 10_11_2
+WOW64
+Windows NT 6.1
+Ubuntu
+Linux x86_64
+rv:15.0

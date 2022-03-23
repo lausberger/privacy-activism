@@ -1,0 +1,14 @@
+Gecko/20100101
+Firefox/15.0.1
+AppleWebKit/537.36
+Chrome/47.0.2526.111
+Safari/537.36
+Edge/12.246
+Chrome/51.0.2704.64
+Version/4.0
+AppleWebKit/604.1.38
+Mobile/15A5341f
+Version/11.0
+CriOS/69.0.3497.105
+Mobile/15E148
+Safari/605.1
