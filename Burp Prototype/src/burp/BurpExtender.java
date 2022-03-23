@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.File;
+import java.util.Random;
+
 
 
 public class BurpExtender implements IBurpExtender, IHttpListener {
@@ -14,28 +19,41 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
     private IBurpExtenderCallbacks callbacks;
     private IExtensionHelpers helpers;
     private PrintWriter debug;
-    private int cookieCounter;
-//Test comment
+    private List<String> commentsList;
+    private List<String> productsList;
+
     @Override
     public void registerExtenderCallbacks(IBurpExtenderCallbacks callbacks) { // This is what allows the code to interface with BurpSuite
         this.callbacks = callbacks;
         this.helpers = callbacks.getHelpers();
         this.callbacks.setExtensionName("Lucas's Burp Extension");
         this.callbacks.registerHttpListener(this); // This waits for a packet to be received and forwards it to the code
-        this.cookieCounter = 0;
 
         this.debug = new PrintWriter(callbacks.getStdout(), true); // lets us print either to the Burp app, a file, or the terminal
-    }
+        this.commentsList = new ArrayList<String>();
+        this.productsList = new ArrayList<String>();
 
-    /*
-    Goals for the future and suggestions for what to work on:
-    1. [DONE] Successfully transplant a reassembled cookie onto a header and send it out
-    2. Rather than searching for cookies, simply apply logic to any key=value detected in the packet
-        * This would require some serious checking to avoid breaking websites! Ex. in-packet HTML code or lang=en_us
-    3. Modify logic to be more rigorous, ex. for GPS=1, scrambing '1' would do nothing
-    4. See if it's possible to keep cookie values 'usable' so that the server doesn't just chuck them
-    5. Figure out what else we can do when it comes to stateful tracking
-    */
+        try {
+            File commentsFile = new File("commentSamples.txt");
+            File productsFile = new File("productSamples.txt");
+            Scanner commentScanner = new Scanner(commentsFile);
+            Scanner productScanner = new Scanner(productsFile);
+            while (commentScanner.hasNextLine()) {
+                String s = commentScanner.nextLine();
+                this.commentsList.add(s);
+            }
+            while (productScanner.hasNextLine()) {
+                String s = productScanner.nextLine();
+                this.productsList.add(s);
+            }
+            commentScanner.close();
+            productScanner.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("ERROR READING FILE");
+            System.err.println(e);
+            System.exit(1);
+        }
+    }
 
     @Override
     public void processHttpMessage(int toolFlag, boolean messageIsRequest, IHttpRequestResponse message) {
@@ -50,7 +68,10 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
                 String header_name = header_components[0]; // The first word before the semicolon will be the header's name
                 String header_body = header_components[1]; // The body follows the colon
 
+
                 if (header_name.equals("User-Agent")) {
+                    //System.out.println(header_body);
+                    //packet_was_modified = true;
                     // <product> / <product-version>: [A-Za-z]*\/[\d+\.\d+]*
                     // <comment>: \(([^(]*)\) OR \(([A-Za-z ,\/\d.]*(; )?)*\)
 
@@ -68,33 +89,68 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
                         comment_matches.add(comment_matcher.group());
                     }
 
-                    String teststring = "test string";
+                    Random r = new Random();
                     for (int i=0; i<comment_matches.size(); i++) {
                         String no_parenthesis = comment_matches.get(i).substring(1, comment_matches.get(i).length()-1);
                         String[] comment = no_parenthesis.split("; ");
                         String new_comment = "";
-                        boolean multiple = false;
-                        boolean last = false;
 
                         for (int j=0; j<comment.length; j++) {
-                            if (j > 0) {
-                                multiple = true;
-                            }
+                            String nextStr = this.commentsList.get(r.nextInt(this.commentsList.size()));
                             if (j == comment.length-1) {
-                                last = true;
-                            }
-                            if (multiple && !last) {
-                                new_comment = new_comment + teststring + "; ";
-                            } else if (last) {
-                                new_comment = new_comment + teststring;
+                                new_comment = new_comment + nextStr;
+                            } else {
+                                new_comment = new_comment + nextStr + "; ";
                             }
                         }
                         
                         new_comment = "(" + new_comment + ")";
-                        System.out.println(new_comment);
-                        System.out.println(Arrays.toString(comment));
-                        System.out.println();
                         comment_matches.set(i, new_comment);
+                    }
+
+                    for (int i=1; i<product_matches.size(); i++) {
+                        String new_product = this.productsList.get(r.nextInt(this.productsList.size()));
+                        product_matches.set(i, new_product);
+                    }
+
+                    List<String> body_list = new ArrayList<String>();
+
+                    int k = 0;
+                    String reconstructed_body = "";
+                    while (k < comment_matches.size() && k < product_matches.size()) {
+
+                        body_list.add(product_matches.get(k));
+                        body_list.add(comment_matches.get(k));
+                        k++;
+                    }
+
+                    if (k != comment_matches.size()) {
+                        System.err.println("ERROR: MORE COMMENTS THAN PRODUCTS");
+                        System.exit(1);
+                    }
+
+                    while (k < product_matches.size()) {
+                        body_list.add(product_matches.get(k));
+                        k++;
+                    }
+
+                    for (int l=0; l<body_list.size(); l++) {
+                        String s = body_list.get(l);
+                        if (l == body_list.size()-1) {
+                            reconstructed_body = reconstructed_body + s;
+                        } else {
+                            reconstructed_body = reconstructed_body + s + " ";
+                        }
+                    }
+
+                    System.out.println(header_body);
+                    System.out.println(reconstructed_body);
+
+                    String user_agent = "User-Agent: " + reconstructed_body;
+                    request_headers.set(h, user_agent);
+
+                    if (!packet_was_modified) {
+                        packet_was_modified = true;
                     }
                 }
 
@@ -165,8 +221,9 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
                 byte[] modified_request_bytes = this.helpers.buildHttpMessage(request_headers, body.getBytes());
                 message.setRequest(modified_request_bytes); // required if using http listener
                 IRequestInfo modified_request = this.helpers.analyzeRequest(message);
-                
+
                 // debug printout to make sure things are working
+                /*
                 debug.println("STARTING PACKET ANALYSIS");
                 debug.println("\tORIGINAL PACKET:");
                 for (String s : request.getHeaders()) {
@@ -178,6 +235,7 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
                     debug.println(s);
                 }
                 debug.println("END OF PACKET ANALYSIS\n");
+                */
             }
         } 
         /*
