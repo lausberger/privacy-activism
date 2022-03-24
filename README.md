@@ -16,7 +16,9 @@
 * Ravi's paper: https://www.usenix.org/conference/nsdi16/technical-sessions/presentation/netravali
 * Chromium development tips and tricks: https://www.chromium.org/chromium-os/tips-and-tricks-for-chromium-os-developers/
 
-## TO DO (Stateful):
+## TO DO:
+
+####Stateful
 * ~~Figure out how to prevent a packet from being sent while code logic executes~~
 * ~~Successfully transplant manipulated cookie values onto packet, then release~~
 * ~~Find a way to manipulate cookies while breaking sites as little as possible~~
@@ -24,7 +26,7 @@
 * Design a principled approach to User-Agent spoofing that avoids breaking websites
 * Run experiments to gauge impact of different ways of manipulating packet values on user experience
 
-## TO DO (Stateless):
+####Stateless
 * ~~Make a fork of Chromium or Brave browser~~
 * Do a stack trace w/ a custom HTML page that calls location function to find where Location API values are being returned from
 * Successfully spoof location API return value
@@ -32,7 +34,7 @@
 * Fine-tune location API implementation
 * Begin to look at other APIs
 
-## TO DO (Experiment):
+####Experiments
 * Create a tool, proxy extension, or browser extension that saves all ads on a page into a folder
 * Come up with categories for the types of ads encountered by this tool
 * 
