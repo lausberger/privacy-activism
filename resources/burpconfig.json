@@ -46,7 +46,7 @@
                     "extension_type":"java",
                     "loaded":true,
                     "name":"Lucas's Burp Extension",
-                    "output":"ui"
+                    "output":"console"
                 }
             ],
             "java":{
@@ -274,7 +274,7 @@
         "proxy":{
             "http_history":{
                 "sort_column":"#",
-                "sort_order":"ascending"
+                "sort_order":"descending"
             },
             "websockets_history":{
                 "sort_column":"#",
