@@ -14,18 +14,30 @@
 * A really simple geolocation hook implementation I stole: https://stackoverflow.com/questions/57886012/how-to-fake-html5-geolocation-api-with-javascript
 * Code for a published paper that did almost exactly what we're doing (window_rewriting/inline.js): https://github.com/ravinet/dependency_caching/tree/master/window_rewriting
 * Ravi's paper: https://www.usenix.org/conference/nsdi16/technical-sessions/presentation/netravali
+* Chromium development tips and tricks: https://www.chromium.org/chromium-os/tips-and-tricks-for-chromium-os-developers/
 
 ## TO DO:
+
+#### Stateful
 * ~~Figure out how to prevent a packet from being sent while code logic executes~~
 * ~~Successfully transplant manipulated cookie values onto packet, then release~~
-* Find a way to manipulate cookies while breaking sites as little as possible
+* ~~Find a way to manipulate cookies while breaking sites as little as possible~~
+* ~~Successfully spoof User-Agent header~~
+* Design a principled approach to User-Agent spoofing that avoids breaking websites
 * Run experiments to gauge impact of different ways of manipulating packet values on user experience
-* Make a fork of Chromium or Brave browser
+
+#### Stateless
+* ~~Make a fork of Chromium or Brave browser~~
 * Do a stack trace w/ a custom HTML page that calls location function to find where Location API values are being returned from
 * Successfully spoof location API return value
 * Add functionality to draw randomly from list for location value
 * Fine-tune location API implementation
 * Begin to look at other APIs
+
+#### Experiments
+* Create a tool, proxy extension, or browser extension that saves all ads on a page into a folder
+* Come up with categories for the types of ads encountered by this tool
+* 
 
 ## Methodology:
 
@@ -62,7 +74,11 @@
 * Wrote experimental design
 * Compiled useful resources for experiment
 * Researched browser API hooking and added pertinent resources to README
+* Created fork of Chromium and obtained all relevant Google API keys
+* Wrote a revised BurpExender implementation, which now randomly spoofs each component of User-Agent headers
 
 #### Elias
 * Compiled initial list of websites for experiment
-* Worked on User-Agent part of BurpExtender 
+* Researched Regex pattern matching for User-Agent headers
+* Obtained large database of User-Agents for use in proxy extension
+* Helped implement revised BurpExtender 
