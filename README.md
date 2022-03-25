@@ -15,6 +15,7 @@
 * Code for a published paper that did almost exactly what we're doing (window_rewriting/inline.js): https://github.com/ravinet/dependency_caching/tree/master/window_rewriting
 * Ravi's paper: https://www.usenix.org/conference/nsdi16/technical-sessions/presentation/netravali
 * Chromium development tips and tricks: https://www.chromium.org/chromium-os/tips-and-tricks-for-chromium-os-developers/
+* Useful Web Audio API and anti-spoofing information: https://dev.to/savannahjs/how-the-web-audio-api-is-used-for-browser-fingerprinting-4oim
 
 ## TO DO:
 
