@@ -15,6 +15,8 @@
 * Code for a published paper that did almost exactly what we're doing (window_rewriting/inline.js): https://github.com/ravinet/dependency_caching/tree/master/window_rewriting
 * Ravi's paper: https://www.usenix.org/conference/nsdi16/technical-sessions/presentation/netravali
 * Chromium development tips and tricks: https://www.chromium.org/chromium-os/tips-and-tricks-for-chromium-os-developers/
+* Useful Web Audio API and anti-spoofing information: https://dev.to/savannahjs/how-the-web-audio-api-is-used-for-browser-fingerprinting-4oim
+* A paper on literally the same thing we're doing: https://dl.acm.org/doi/abs/10.1145/2736277.2741090
 
 ## TO DO:
 
@@ -24,15 +26,17 @@
 * ~~Find a way to manipulate cookies while breaking sites as little as possible~~
 * ~~Successfully spoof User-Agent header~~
 * Design a principled approach to User-Agent spoofing that avoids breaking websites
-* Run experiments to gauge impact of different ways of manipulating packet values on user experience
+* Run tests to gauge impact of different ways of manipulating packet values on user experience
+* Look into other ways of changing stateful information
 
 #### Stateless
 * ~~Make a fork of Chromium or Brave browser~~
-* Do a stack trace w/ a custom HTML page that calls location function to find where Location API values are being returned from
-* Successfully spoof location API return value
+* ~~Do a stack trace w/ a custom HTML page that calls location function to find where Location API values are being returned from~~
+* ~~Successfully spoof location API return value~~
 * Add functionality to draw randomly from list for location value
-* Fine-tune location API implementation
-* Begin to look at other APIs
+* ~~Fine-tune location API implementation~~
+* Look into AudioContext API
+* Find other APIs that could be manipulated
 
 #### Experiments
 * Create a tool, proxy extension, or browser extension that saves all ads on a page into a folder
@@ -75,7 +79,8 @@
 * Compiled useful resources for experiment
 * Researched browser API hooking and added pertinent resources to README
 * Created fork of Chromium and obtained all relevant Google API keys
-* Wrote a revised BurpExender implementation, which now randomly spoofs each component of User-Agent headers
+* Wrote a revised BurpExender implementation, which randomly spoofs each component of User-Agent header
+* Spoofed Geolocation API return values in Chromium
 
 #### Elias
 * Compiled initial list of websites for experiment
