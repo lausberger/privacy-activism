@@ -16,6 +16,7 @@
 * Ravi's paper: https://www.usenix.org/conference/nsdi16/technical-sessions/presentation/netravali
 * Chromium development tips and tricks: https://www.chromium.org/chromium-os/tips-and-tricks-for-chromium-os-developers/
 * Useful Web Audio API and anti-spoofing information: https://dev.to/savannahjs/how-the-web-audio-api-is-used-for-browser-fingerprinting-4oim
+* A paper on literally the same thing we're doing: https://dl.acm.org/doi/abs/10.1145/2736277.2741090
 
 ## TO DO:
 
