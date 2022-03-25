@@ -34,8 +34,8 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
         this.productsList = new ArrayList<String>();
 
         try {
-            File commentsFile = new File("commentSamples.txt");
-            File productsFile = new File("productSamples.txt");
+            File commentsFile = new File("resources/commentSamples.txt");
+            File productsFile = new File("resources/productSamples.txt");
             Scanner commentScanner = new Scanner(commentsFile);
             Scanner productScanner = new Scanner(productsFile);
             while (commentScanner.hasNextLine()) {
@@ -51,7 +51,7 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
         } catch (FileNotFoundException e) {
             System.err.println("ERROR READING FILE");
             System.err.println(e);
-            System.exit(1);
+            //System.exit(1);
         }
     }
 
