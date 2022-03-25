@@ -24,15 +24,17 @@
 * ~~Find a way to manipulate cookies while breaking sites as little as possible~~
 * ~~Successfully spoof User-Agent header~~
 * Design a principled approach to User-Agent spoofing that avoids breaking websites
-* Run experiments to gauge impact of different ways of manipulating packet values on user experience
+* Run tests to gauge impact of different ways of manipulating packet values on user experience
+* Look into other ways of changing stateful information
 
 #### Stateless
 * ~~Make a fork of Chromium or Brave browser~~
-* Do a stack trace w/ a custom HTML page that calls location function to find where Location API values are being returned from
-* Successfully spoof location API return value
+* ~~Do a stack trace w/ a custom HTML page that calls location function to find where Location API values are being returned from~~
+* ~~Successfully spoof location API return value~~
 * Add functionality to draw randomly from list for location value
-* Fine-tune location API implementation
-* Begin to look at other APIs
+* ~~Fine-tune location API implementation~~
+* Look into AudioContext API
+* Find other APIs that could be manipulated
 
 #### Experiments
 * Create a tool, proxy extension, or browser extension that saves all ads on a page into a folder
@@ -75,7 +77,8 @@
 * Compiled useful resources for experiment
 * Researched browser API hooking and added pertinent resources to README
 * Created fork of Chromium and obtained all relevant Google API keys
-* Wrote a revised BurpExender implementation, which now randomly spoofs each component of User-Agent headers
+* Wrote a revised BurpExender implementation, which randomly spoofs each component of User-Agent header
+* Spoofed Geolocation API return values in Chromium
 
 #### Elias
 * Compiled initial list of websites for experiment
