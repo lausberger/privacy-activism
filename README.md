@@ -15,8 +15,11 @@
 * Code for a published paper that did almost exactly what we're doing (window_rewriting/inline.js): https://github.com/ravinet/dependency_caching/tree/master/window_rewriting
 * Ravi's paper: https://www.usenix.org/conference/nsdi16/technical-sessions/presentation/netravali
 * Chromium development tips and tricks: https://www.chromium.org/chromium-os/tips-and-tricks-for-chromium-os-developers/
-* Useful Web Audio API and anti-spoofing information: https://dev.to/savannahjs/how-the-web-audio-api-is-used-for-browser-fingerprinting-4oim
+* Article from trackers that show their fingerprinting tactics: https://dev.to/savannahjs/how-the-web-audio-api-is-used-for-browser-fingerprinting-4oim
 * A paper on literally the same thing we're doing: https://dl.acm.org/doi/abs/10.1145/2736277.2741090
+* Another relevant paper: https://dl.acm.org/doi/pdf/10.1145/3386040
+* Another one: https://hal.inria.fr/hal-01527580/document
+* How Brave browser "farbles" fingerprint info: https://github.com/brave/brave-core/blob/680b0d872e0a295ef94602fb5dc1907358d6a3ba/chromium_src/third_party/blink/renderer/core/execution_context/execution_context.cc#L133
 
 ## TO DO:
 
