@@ -2,11 +2,9 @@ package burp;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Collections;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+//import java.util.regex.Pattern;
+//import java.util.regex.Matcher;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.File;
@@ -19,9 +17,9 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
     private IBurpExtenderCallbacks callbacks;
     private IExtensionHelpers helpers;
     private PrintWriter debug;
-    private List<String> commentsList;
-    private List<String> productsList;
-
+    //private List<String> commentsList;
+    //private List<String> productsList;
+    private List<String> agentsList;
     @Override
     public void registerExtenderCallbacks(IBurpExtenderCallbacks callbacks) { // This is what allows the code to interface with BurpSuite
         this.callbacks = callbacks;
@@ -30,29 +28,48 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
         this.callbacks.registerHttpListener(this); // This waits for a packet to be received and forwards it to the code
 
         this.debug = new PrintWriter(callbacks.getStdout(), true); // lets us print either to the Burp app, a file, or the terminal
-        this.commentsList = new ArrayList<String>();
-        this.productsList = new ArrayList<String>();
-
-        try {
-            File commentsFile = new File("resources/commentSamples.txt");
-            File productsFile = new File("resources/productSamples.txt");
-            Scanner commentScanner = new Scanner(commentsFile);
-            Scanner productScanner = new Scanner(productsFile);
-            while (commentScanner.hasNextLine()) {
-                String s = commentScanner.nextLine();
-                this.commentsList.add(s);
+        //this.commentsList = new ArrayList<String>();
+        //this.productsList = new ArrayList<String>();
+        this.agentsList = new ArrayList<String>();
+        // if (whichRandom)
+        // {
+        //     try {
+        //         File commentsFile = new File("commentSamples.txt");
+        //         File productsFile = new File("productSamples.txt");
+        //         Scanner commentScanner = new Scanner(commentsFile);
+        //         Scanner productScanner = new Scanner(productsFile);
+        //         while (commentScanner.hasNextLine()) {
+        //             String s = commentScanner.nextLine();
+        //             this.commentsList.add(s);
+        //         }
+        //         while (productScanner.hasNextLine()) {
+        //             String s = productScanner.nextLine();
+        //             this.productsList.add(s);
+        //         }
+        //         commentScanner.close();
+        //         productScanner.close();
+        //     } catch (FileNotFoundException e) {
+        //         System.err.println("ERROR READING FILE");
+        //         System.err.println(e);
+        //         System.exit(1);
+        //     }
+        // }
+        //else{
+            try {
+                File agentsFile = new File("agents.txt");
+                Scanner agentScanner = new Scanner(agentsFile);
+                while (agentScanner.hasNextLine()) {
+                    String s = agentScanner.nextLine();
+                    this.agentsList.add(s);
+                }
+                agentScanner.close();
+            } catch (FileNotFoundException e) {
+                System.err.println("ERROR READING FILE");
+                System.err.println(e);
+                //System.exit(1);
             }
-            while (productScanner.hasNextLine()) {
-                String s = productScanner.nextLine();
-                this.productsList.add(s);
-            }
-            commentScanner.close();
-            productScanner.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("ERROR READING FILE");
-            System.err.println(e);
-            //System.exit(1);
-        }
+        //}
+        
     }
 
     @Override
@@ -75,73 +92,81 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
                     // <product> / <product-version>: [A-Za-z]*\/[\d+\.\d+]*
                     // <comment>: \(([^(]*)\) OR \(([A-Za-z ,\/\d.]*(; )?)*\)
 
-                    List<String> product_matches = new ArrayList<String>();
-                    List<String> comment_matches = new ArrayList<String>();
+                    // List<String> product_matches = new ArrayList<String>();
+                    // List<String> comment_matches = new ArrayList<String>();
 
-                    Matcher product_matcher = Pattern.compile("[A-Za-z]*\\/[\\d+.\\d+]*").matcher(header_body);
-                    Matcher comment_matcher = Pattern.compile("\\(([^(]*)\\)").matcher(header_body);
+                    // Matcher product_matcher = Pattern.compile("[A-Za-z]*\\/[\\d+.\\d+]*").matcher(header_body);
+                    // Matcher comment_matcher = Pattern.compile("\\(([^(]*)\\)").matcher(header_body);
 
-                    while (product_matcher.find()) {
-                        product_matches.add(product_matcher.group());
-                    }
+                    // while (product_matcher.find()) {
+                    //     product_matches.add(product_matcher.group());
+                    // }
 
-                    while (comment_matcher.find()) {
-                        comment_matches.add(comment_matcher.group());
-                    }
+                    // while (comment_matcher.find()) {
+                    //     comment_matches.add(comment_matcher.group());
+                    // }
 
-                    Random r = new Random();
-                    for (int i=0; i<comment_matches.size(); i++) {
-                        String no_parenthesis = comment_matches.get(i).substring(1, comment_matches.get(i).length()-1);
-                        String[] comment = no_parenthesis.split("; ");
-                        String new_comment = "";
+                    // Random r = new Random();
+                    // for (int i=0; i<comment_matches.size(); i++) {
+                    //     String no_parenthesis = comment_matches.get(i).substring(1, comment_matches.get(i).length()-1);
+                    //     String[] comment = no_parenthesis.split("; ");
+                    //     String new_comment = "";
 
-                        for (int j=0; j<comment.length; j++) {
-                            String nextStr = this.commentsList.get(r.nextInt(this.commentsList.size()));
-                            if (j == comment.length-1) {
-                                new_comment = new_comment + nextStr;
-                            } else {
-                                new_comment = new_comment + nextStr + "; ";
-                            }
-                        }
+                    //     for (int j=0; j<comment.length; j++) {
+                    //         String nextStr = this.commentsList.get(r.nextInt(this.commentsList.size()));
+                    //         if (j == comment.length-1) {
+                    //             new_comment = new_comment + nextStr;
+                    //         } else {
+                    //             new_comment = new_comment + nextStr + "; ";
+                    //         }
+                    //     }
                         
-                        new_comment = "(" + new_comment + ")";
-                        comment_matches.set(i, new_comment);
-                    }
+                    //     new_comment = "(" + new_comment + ")";
+                    //     comment_matches.set(i, new_comment);
+                    // }
 
-                    for (int i=1; i<product_matches.size(); i++) {
-                        String new_product = this.productsList.get(r.nextInt(this.productsList.size()));
-                        product_matches.set(i, new_product);
-                    }
+                    // for (int i=1; i<product_matches.size(); i++) {
+                    //     String new_product = this.productsList.get(r.nextInt(this.productsList.size()));
+                    //     product_matches.set(i, new_product);
+                    // }
 
-                    List<String> body_list = new ArrayList<String>();
+                    // List<String> body_list = new ArrayList<String>();
 
-                    int k = 0;
+                    // int k = 0;
+                    
+                    // while (k < comment_matches.size() && k < product_matches.size()) {
+
+                    //     body_list.add(product_matches.get(k));
+                    //     body_list.add(comment_matches.get(k));
+                    //     k++;
+                    // }
+
+                    // if (k != comment_matches.size()) {
+                    //     System.err.println("ERROR: MORE COMMENTS THAN PRODUCTS");
+                    //     System.exit(1);
+                    // }
+
+                    // while (k < product_matches.size()) {
+                    //     body_list.add(product_matches.get(k));
+                    //     k++;
+                    // }
+                    // if (whichRandom){
+                    //     for (int l=0; l<body_list.size(); l++) {
+                    //         String s = body_list.get(l);
+                    //         if (l == body_list.size()-1) {
+                    //             reconstructed_body = reconstructed_body + s;
+                    //         } else {
+                    //             reconstructed_body = reconstructed_body + s + " ";
+                    //         }
+                    //     }
+                    // }
+                    // else
+                    // {
                     String reconstructed_body = "";
-                    while (k < comment_matches.size() && k < product_matches.size()) {
-
-                        body_list.add(product_matches.get(k));
-                        body_list.add(comment_matches.get(k));
-                        k++;
-                    }
-
-                    if (k != comment_matches.size()) {
-                        System.err.println("ERROR: MORE COMMENTS THAN PRODUCTS");
-                        System.exit(1);
-                    }
-
-                    while (k < product_matches.size()) {
-                        body_list.add(product_matches.get(k));
-                        k++;
-                    }
-
-                    for (int l=0; l<body_list.size(); l++) {
-                        String s = body_list.get(l);
-                        if (l == body_list.size()-1) {
-                            reconstructed_body = reconstructed_body + s;
-                        } else {
-                            reconstructed_body = reconstructed_body + s + " ";
-                        }
-                    }
+                    Random intR = new Random();
+                    int randIndex = intR.nextInt(9999) + 1;
+                    reconstructed_body = this.agentsList.get(randIndex);
+                    
 
                     System.out.println(header_body);
                     System.out.println(reconstructed_body);
