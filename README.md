@@ -83,4 +83,4 @@
 * Compiled initial list of websites for experiment
 * Researched Regex pattern matching for User-Agent headers
 * Obtained large database of User-Agents for use in proxy extension
-* Helped implement revised BurpExtender 
+* Implemented revised BurpExtender to randomize User-Agent from large database of valid User-Agent strings 
