@@ -22,23 +22,22 @@
 * ~~Successfully transplant manipulated cookie values onto packet, then release~~
 * ~~Find a way to manipulate cookies while breaking sites as little as possible~~
 * ~~Successfully spoof User-Agent header~~
-* Design a principled approach to User-Agent spoofing that avoids breaking websites
-* Run tests to gauge impact of different ways of manipulating packet values on user experience
-* Look into other ways of changing stateful information
+* ~~Design a principled approach to User-Agent spoofing that avoids breaking websites~~
+* ~~Look into other ways of changing stateful information~~
+* Short test to see if cookie manipulation itself breaks sites or if some break themselves if they notice fraudulent cookies
 
 #### Stateless
 * ~~Make a fork of Chromium or Brave browser~~
 * ~~Do a stack trace w/ a custom HTML page that calls location function to find where Location API values are being returned from~~
 * ~~Successfully spoof location API return value~~
-* Add functionality to draw randomly from list for location value
 * ~~Fine-tune location API implementation~~
-* Look into AudioContext API
-* Find other APIs that could be manipulated
+* ~~Look into other APIs that could be manipulated~~
+* Make browser compatible with measurement tool
 
-#### Experiments
+#### Experiments/Measurement
 * Create a tool, proxy extension, or browser extension that saves all ads on a page into a folder
 * Come up with categories for the types of ads encountered by this tool
-* 
+* Design another tool which can automate browsing activity
 
 ## Methodology:
 
@@ -68,19 +67,20 @@
 * Conducted preliminary research on using Burp extensions to automate proxy functionality
 * Created repository
 * Compiled resoures for coding a Burp extension, added to README
-* Added project roadmap section to README
+* Added To-Do list section to README
 * Added methodology section to README
 * Wrote initial implementation of BurpExtender, which intercepts request cookie field=value pairs and scrambles the values before sending
-* Created the guiding research questions
+* Wrote research questions and hypotheses
 * Wrote experimental design
-* Compiled useful resources for experiment
+* Compiled useful resources for experimentation
 * Researched browser API hooking and added pertinent resources to README
-* Created fork of Chromium and obtained all relevant Google API keys
-* Wrote a revised BurpExender implementation, which randomly spoofs each component of User-Agent header
+* Created fork of Chromium and obtained all relevant IDs and API keys
+* Wrote preliminary revised BurpExender implementation, which individually randomizes each individual component of User-Agent header
 * Spoofed Geolocation API return values in Chromium
+* Created slide presentation for final implementation meeting
 
 #### Elias
-* Compiled initial list of websites for experiment
+* Compiled preliminary list of websites for experiment
 * Researched Regex pattern matching for User-Agent headers
 * Obtained large database of User-Agents for use in proxy extension
-* Implemented revised BurpExtender to randomize User-Agent from large database of valid User-Agent strings 
+* Implemented final revised BurpExtender: randomize entire User-Agent from large database of valid strings 
