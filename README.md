@@ -14,6 +14,7 @@
 * Another relevant paper: https://dl.acm.org/doi/pdf/10.1145/3386040
 * Another one: https://hal.inria.fr/hal-01527580/document
 * How Brave browser "farbles" fingerprint data: https://github.com/brave/brave-core/blob/680b0d872e0a295ef94602fb5dc1907358d6a3ba/chromium_src/third_party/blink/renderer/core/execution_context/execution_context.cc#L133
+* Alexa Popular Sites by Topic: https://www.alexa.com/popular-articles
 
 ## TO DO:
 
