@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test Website!</title>
+    </head>
+    <body>
+        <p id="lat">Latitude: </p>
+        <p id="lng">Longitude: </p>
+        <script>
+            var success = function(position) {
+                pos = position;
+                console.log(pos.coords.latitude);
+                console.log(pos.coords.longitude);
+
+                document.getElementById("lat").insertAdjacentHTML('beforeend', pos.coords.latitude);
+                document.getElementById("lng").insertAdjacentHTML('beforeend', pos.coords.longitude);
+            }
+
+            var error = function(err) {
+                console.log("Error: " + err); 
+            }
+
+            navigator.geolocation.getCurrentPosition(success, error);
+        </script>
+    </body>
+</html>

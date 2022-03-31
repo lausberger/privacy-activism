@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Ad Collector",
+  "version": "0.1",
+  "description": "collects ads!",
+  "author": "Lucas Ausberger",
+
+  "background": {
+    "service_worker": "adCollector.js"
+  },
+
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+
+  "action": {
+    "default_icon": {
+      "16": "icons/dl16.png",
+      "32": "icons/dl32.png"
+    }
+  }
+}
+
