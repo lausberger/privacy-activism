@@ -85,3 +85,5 @@
 * Researched Regex pattern matching for User-Agent headers
 * Obtained large database of User-Agents for use in proxy extension
 * Implemented final revised BurpExtender: randomize entire User-Agent from large database of valid strings 
+* Researched adblockparser Python library
+* Created Python script to download advertisement images from URL and place images in their own folder 
