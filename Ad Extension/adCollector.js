@@ -1,25 +1,28 @@
-function download(dataurl, filename) {
+// Given a URL, append a child containing said URL to the given parent object
+function saveURL(url, par) {
+  const dummy = document.createElement('a');
+  dummy.href = url;
+  par.appendChild(dummy);
+}
+
+// Add the given text to an object, then download its contents
+function download(text, filename) {
     const link = document.createElement("a");
-    link.href = dataurl;
+    link.href = text;
     link.download = filename;
     link.click();
 }
 
-function saveURL(url) {
-    const dummy = document.createElement('a');
-    dummy.href = url;
-    parentnode.appendChild(dummy);
-}
-
+// Take all image elements on a page, save all of their URLs, then download them in one file
 function collectImages() {
-    var images = document.getElementsByTagName('img');
     var parentnode = document.createElement("a");
+    var images = document.getElementsByTagName('img');
     var urlstring = "";
 
     for(let i=0; i<images.length; i++) {
         let img = images[i];
         if (img.src != "") {
-            saveURL(img.src);
+            saveURL(img.src, parentnode);
         }
     }
 
@@ -32,19 +35,4 @@ function collectImages() {
     download("data:text/html," + urlstring, "urls.txt");
 }
 
-chrome.action.onClicked.addListener((tab) => {
-    collectImages();
-});
-
-/*
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["adCollector.js"]
-    }
-  ],
-   "web_accessible_resources": [{
-    "resources": ["adCollector.js"],
-    "matches": ["<all_urls>"]
-  }],
-*/
+collectImages();
