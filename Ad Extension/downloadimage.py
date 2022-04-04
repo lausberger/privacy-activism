@@ -1,25 +1,33 @@
 import urllib.request
 import os
+import shutil
 from adblockparser import AdblockRules
 
-name = "m"
-file = open('folderName.txt', 'r+')
-line = file.readLines()
-name = name + str(line[0])
-file.write(str(int(line[0]) + 1)
+DIRECTORY = 'measurements/'
+FILTER_LIST = ['https://easylist.to/easylist/easyprivacy.txt']
+ADBLOCK_RULES = AdblockRules(FILTER_LIST)
 
-if not os.path.exists(name):
-    os.makedirs(name)
-    my_set.add(name)
+def process_file(filename, dir):
+    f = open(filename, 'r')
+    count = 0
+    for url in f.readlines():
+        print(url)
+        if ADBLOCK_RULES.should_block(url):
+            img_name = os.path.join(dir, f"ad{count}.jpg")
+            urllib.request.urlretrieve(url, img_name)
+            count = count + 1
 
-raw_rules = ['https://easylist.to/easylist/easyprivacy.txt']
-rules = AdblockRules(raw_rules)
-file1 = open('exampleimage.txt','r') #replace exampleimage.txt with urls.txt
+def main():
+    measurement_number = 0
+    for file in sorted(os.listdir(DIRECTORY)):
+        filepath = DIRECTORY + file
+        if os.path.isfile(filepath) and filepath[-4:] == ".txt":
+            dirname = os.path.join(DIRECTORY, f"meas{measurement_number}")
+            os.makedirs(dirname)
+            newfilepath = os.path.join(dirname, file)
+            shutil.copyfile(filepath, newfilepath)
+            process_file(newfilepath, dirname)
+            measurement_number += 1
 
-Lines = file1.readlines()
-count = 0
-for line in Lines:
-    if rules.should_block(line):
-        imageStr = "image" + str(count) + ".jpg"
-        urllib.request.urlretrieve(line, imageStr)
-        count = count + 1
+if __name__ == "__main__":
+    main()
