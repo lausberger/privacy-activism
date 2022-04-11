@@ -31,45 +31,18 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
         //this.commentsList = new ArrayList<String>();
         //this.productsList = new ArrayList<String>();
         this.agentsList = new ArrayList<String>();
-        // if (whichRandom)
-        // {
-        //     try {
-        //         File commentsFile = new File("commentSamples.txt");
-        //         File productsFile = new File("productSamples.txt");
-        //         Scanner commentScanner = new Scanner(commentsFile);
-        //         Scanner productScanner = new Scanner(productsFile);
-        //         while (commentScanner.hasNextLine()) {
-        //             String s = commentScanner.nextLine();
-        //             this.commentsList.add(s);
-        //         }
-        //         while (productScanner.hasNextLine()) {
-        //             String s = productScanner.nextLine();
-        //             this.productsList.add(s);
-        //         }
-        //         commentScanner.close();
-        //         productScanner.close();
-        //     } catch (FileNotFoundException e) {
-        //         System.err.println("ERROR READING FILE");
-        //         System.err.println(e);
-        //         System.exit(1);
-        //     }
-        // }
-        //else{
-            try {
-                File agentsFile = new File("agents.txt");
-                Scanner agentScanner = new Scanner(agentsFile);
-                while (agentScanner.hasNextLine()) {
-                    String s = agentScanner.nextLine();
-                    this.agentsList.add(s);
-                }
-                agentScanner.close();
-            } catch (FileNotFoundException e) {
-                System.err.println("ERROR READING FILE");
-                System.err.println(e);
-                //System.exit(1);
+        try {
+            File agentsFile = new File("agents.txt");
+            Scanner agentScanner = new Scanner(agentsFile);
+            while (agentScanner.hasNextLine()) {
+                String s = agentScanner.nextLine();
+                this.agentsList.add(s);
             }
-        //}
-        
+            agentScanner.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("ERROR READING FILE");
+            System.err.println(e);
+        }        
     }
 
     @Override
@@ -168,8 +141,10 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
                     reconstructed_body = this.agentsList.get(randIndex);
                     
 
+                    /* debug printout
                     System.out.println(header_body);
                     System.out.println(reconstructed_body);
+                    */
 
                     String user_agent = "User-Agent: " + reconstructed_body;
                     request_headers.set(h, user_agent);
@@ -242,42 +217,9 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
             if (packet_was_modified) { // Once we've changed a request packet, we can create a new one in its place                
                 int bodyOffset = request.getBodyOffset();
                 String body = new String(message.getRequest()).substring(bodyOffset);
-
                 byte[] modified_request_bytes = this.helpers.buildHttpMessage(request_headers, body.getBytes());
                 message.setRequest(modified_request_bytes); // required if using http listener
-                IRequestInfo modified_request = this.helpers.analyzeRequest(message);
-
-                // debug printout to make sure things are working
-                /*
-                debug.println("STARTING PACKET ANALYSIS");
-                debug.println("\tORIGINAL PACKET:");
-                for (String s : request.getHeaders()) {
-                    debug.println(s);
-                }
-                debug.println("\n");
-                debug.println("\tMODIFIED PACKET:");
-                for (String s : modified_request.getHeaders()) {
-                    debug.println(s);
-                }
-                debug.println("END OF PACKET ANALYSIS\n");
-                */
-            }
-        } 
-        /*
-        else { // allows us to access HTTP responses sent by the website/server and received by our computer
-            IResponseInfo response = this.helpers.analyzeResponse(message.getResponse());
-            for (String sr : response.getHeaders()) {
-                String field = sr.split(":")[0];
-                if (field.equals("Set-Cookie")) { // HTTP responses are what create cookies in the first place. 
-                    this.cookieCounter++;
-                    //debug.println(sr);
-                }
-            }
-            // Get all cookies as an object if we want to
-            for (ICookie c : response.getCookies()) {
-                debug.println(c.getValue());
             }
         }
-        */
     }
 }
