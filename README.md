@@ -87,3 +87,4 @@
 * Implemented final revised BurpExtender: randomize entire User-Agent from large database of valid strings 
 * Researched adblockparser Python library
 * Created Python script to download advertisement images from URL and place images in their own folder 
+* Assisted with experimental design
