@@ -30,17 +30,18 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
         this.callbacks.registerHttpListener(this); // This waits for a packet to be received and forwards it to the code
 
         this.debug = new PrintWriter(callbacks.getStdout(), true); // lets us print either to the Burp app, a file, or the terminal
-        this.IMG_SIZE = 5;
+        this.IMG_SIZE = 15;
         this.FILENAME = "./measurements/urls";
-        this.FNUM = new File("./measurements/").list().length;
+        this.FNUM = 0;
         this.FILETYPE = ".txt";
-        this.file = new File(FILENAME + FNUM + FILETYPE);
-        String tmp = "[";
-        for (String s : new File("./measurements/").list()) {
-            tmp = tmp + s + ", ";
+        String[] tmp = new File("./measurements/").list();
+        for (String s : tmp) {
+            if (s.contains(".txt")) {
+                this.FNUM++;
+            }
         }
-        tmp = tmp + "]";
-        debug.println(tmp);
+        this.file = new File(FILENAME + FNUM + FILETYPE);
+        debug.println(FNUM);
 
         try {
             this.file.createNewFile();
@@ -51,24 +52,32 @@ public class BurpExtender implements IBurpExtender, IHttpListener {
 
     @Override
     public void processHttpMessage(int toolFlag, boolean messageIsRequest, IHttpRequestResponse message) {
-        if (messageIsRequest == false) {
-            IResponseInfo resp = this.helpers.analyzeResponse(message.getResponse());
+        if (messageIsRequest) {
+            //IResponseInfo resp = this.helpers.analyzeResponse(message.getResponse());
             IRequestInfo req = this.helpers.analyzeRequest(message.getHttpService(), message.getRequest());
             URL url = req.getUrl();
             
             try {
                 BufferedImage img = ImageIO.read(url);
+                if (img == null) {
+                    throw new IOException();
+                }
                 if (img.getWidth() > this.IMG_SIZE) {
                     debug.println(url + "\n");
 
                     if (this.file.exists()) {
                         BufferedWriter fileAppend = new BufferedWriter(new FileWriter(this.file, true));
-                        fileAppend.append(url + "/n");
+                        fileAppend.append(url.toString());
+                        fileAppend.newLine();
                         fileAppend.close();
+                    } else {
+                        throw new IOException("Unable to append to file: " + this.FILENAME + this.FILETYPE);
                     }
                 }
             } catch (IOException e) {
                 // debug.println("ERROR: Failed to read image url");
+            } catch (IllegalArgumentException i) {
+                debug.println(i);
             }
         }
     }
