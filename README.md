@@ -88,3 +88,4 @@
 * Researched adblockparser Python library
 * Created Python script to download advertisement images from URL and place images in their own folder 
 * Assisted with experimental design
+* Tested Ad tool to check for bugs with retrieving Ad URL's
