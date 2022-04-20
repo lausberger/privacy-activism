@@ -89,3 +89,5 @@
 * Created Python script to download advertisement images from URL and place images in their own folder 
 * Assisted with experimental design
 * Tested Ad tool to check for bugs with retrieving Ad URL's
+* Wrote the initial draft of the CS half of the research paper
+* Organized list of travel website url's to be used for experimentation 
