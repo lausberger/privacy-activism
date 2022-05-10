@@ -38,7 +38,7 @@
 
 #### Experiments/Measurement
 * ~~Create a tool, proxy extension, or browser extension that saves all ads on a page into a folder~~
-*~~ Come up with categories for the types of ads encountered by this tool~~
+* ~~Come up with categories for the types of ads encountered by this tool~~
 * ~~Design another tool which can automate browsing activity~~
 
 ## Methodology:
