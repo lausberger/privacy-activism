@@ -1,6 +1,8 @@
 # Privacy Activism!
 
-#### Extension file location: /Burp Prototype/src/burp/BurpExtender.java
+## Other Repositories:
+* **https://github.com/lausberger/browser-automator**: Contains final implementation of the experiment tool and all datasets
+* **https://github.com/lausberger/privacy-browser**: Contains copies of changes made to Geolocation API and misc. resources
 
 ## Useful Resources:
 * Burp Suite Community Edition: https://portswigger.net/burp/releases/professional-community-2022-1-1?requestededition=community
