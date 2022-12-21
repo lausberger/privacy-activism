@@ -1,5 +1,9 @@
 # Privacy Activism!
 
+A hub repository containing a research paper, methodology, measurement tools, and documentation for a privacy-focused web browser. Created as part of CS:4980 Privacy Law and Technology at the University of Iowa in the Spring of 2022.
+
+Research paper written by **Lucas Ausberger, Elias Daoud, Hibah Lateef, Serena Qamhieh**.
+
 ## Other Repositories:
 * **https://github.com/lausberger/browser-automator**: Contains final implementation of the experiment tool and all datasets
 * **https://github.com/lausberger/privacy-browser**: Contains copies of changes made to Geolocation API and misc. resources
