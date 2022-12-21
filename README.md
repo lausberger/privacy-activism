@@ -1,6 +1,8 @@
 # Privacy Activism!
 
-#### Extension file location: /Burp Prototype/src/burp/BurpExtender.java
+## Other Repositories:
+* **https://github.com/lausberger/browser-automator**: Contains final implementation of the experiment tool and all datasets
+* **https://github.com/lausberger/privacy-browser**: Contains copies of changes made to Geolocation API and misc. resources
 
 ## Useful Resources:
 * Burp Suite Community Edition: https://portswigger.net/burp/releases/professional-community-2022-1-1?requestededition=community
@@ -25,7 +27,6 @@
 * ~~Successfully spoof User-Agent header~~
 * ~~Design a principled approach to User-Agent spoofing that avoids breaking websites~~
 * ~~Look into other ways of changing stateful information~~
-* Short test to see if cookie manipulation itself breaks sites or if some break themselves if they notice fraudulent cookies
 
 #### Stateless
 * ~~Make a fork of Chromium or Brave browser~~
@@ -33,12 +34,12 @@
 * ~~Successfully spoof location API return value~~
 * ~~Fine-tune location API implementation~~
 * ~~Look into other APIs that could be manipulated~~
-* Make browser compatible with measurement tool
+* ~~Make browser compatible with measurement tool~~
 
 #### Experiments/Measurement
-* Create a tool, proxy extension, or browser extension that saves all ads on a page into a folder
-* Come up with categories for the types of ads encountered by this tool
-* Design another tool which can automate browsing activity
+* ~~Create a tool, proxy extension, or browser extension that saves all ads on a page into a folder~~
+* ~~Come up with categories for the types of ads encountered by this tool~~
+* ~~Design another tool which can automate browsing activity~~
 
 ## Methodology:
 
@@ -61,15 +62,12 @@
 * Theoretically would allow user to seem like a different person every time, preventing cross-site tracking and consumer profile building
 
 
-## Credit Roll:
+## Credit Reel:
 
 #### Lucas
 * Conducted preliminary research on Burp Suite as a Man-in-the-Middle proxy application
-* Conducted preliminary research on using Burp extensions to automate proxy functionality
 * Created repository
 * Compiled resoures for coding a Burp extension, added to README
-* Added To-Do list section to README
-* Added methodology section to README
 * Wrote initial implementation of BurpExtender, which intercepts request cookie field=value pairs and scrambles the values before sending
 * Wrote research questions and hypotheses
 * Wrote experimental design
@@ -77,14 +75,32 @@
 * Researched browser API hooking and added pertinent resources to README
 * Created fork of Chromium and obtained all relevant IDs and API keys
 * Wrote preliminary revised BurpExender implementation, which individually randomizes each individual component of User-Agent header
-* Spoofed Geolocation API return values in Chromium
+* Successfully discovered how to alter Geolocation API return values in Chromium
 * Created slide presentation for final implementation meeting
+* Wrote four versions of the measurement tool
+* Wrote automation/experimentation tool
+* Wrote implementation for Google Vision API
+* Conducted experiments 1, 2, and 3 and placed the results in their respective *data* directories
+* Categorized ads in dataset 2
+* Wrote sub-section on Research Questions
+* Wrote Experimental Setup section
+* Wrote Methodology section (besides last paragraph where Chi-Square is described)
+* Wrote Development & Limitations section
+* Slight modifications to Background section
 
 #### Elias
 * Compiled preliminary list of websites for experiment
 * Researched Regex pattern matching for User-Agent headers
-* Obtained large database of User-Agents for use in proxy extension
+* Obtained large set of User-Agents for use in proxy extension
 * Implemented final revised BurpExtender: randomize entire User-Agent from large database of valid strings 
 * Researched adblockparser Python library
 * Created Python script to download advertisement images from URL and place images in their own folder 
 * Assisted with experimental design
+* Tested Ad tool to check for bugs with retrieving Ad URL's
+* Wrote the initial draft of the CS half of the research paper
+* Organized list of travel website url's to be used for experimentation 
+* Provided ad categorization for dataset 3
+* Performed Chi-Square test of independence on dataset 3
+* Wrote Results section and last paragraph of Methodology
+* Wrote Background section 
+* Wrote conclusion
