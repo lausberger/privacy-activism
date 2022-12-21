@@ -42,11 +42,19 @@
             "extensions":[
                 {
                     "errors":"ui",
-                    "extension_file":"/Users/lucas/Documents/Programs/privacy-activism/Burp Prototype/Burp Prototype.jar",
+                    "extension_file":"/Users/lucas/privacy-activism/Burp Prototype/Burp Prototype.jar",
+                    "extension_type":"java",
+                    "loaded":false,
+                    "name":"Lucas's Burp Extension",
+                    "output":"ui"
+                },
+                {
+                    "errors":"ui",
+                    "extension_file":"/Users/lucas/privacy-activism/Measurement Tool/Measurement Tool.jar",
                     "extension_type":"java",
                     "loaded":true,
-                    "name":"Lucas's Burp Extension",
-                    "output":"console"
+                    "name":"Ad Measurement Tool",
+                    "output":"ui"
                 }
             ],
             "java":{
@@ -273,7 +281,7 @@
         },
         "proxy":{
             "http_history":{
-                "sort_column":"#",
+                "sort_column":"time",
                 "sort_order":"descending"
             },
             "websockets_history":{

@@ -1,0 +1,6 @@
+privacy-browser/
+browser-automator/
+**/.DS_store
+/Burp\ Prototype/bin/
+output.txt
+*.jar
